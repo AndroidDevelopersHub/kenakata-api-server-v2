@@ -21,7 +21,7 @@ module.exports = function (router) {
     router.put('/:table_name/:id', update);
     router.get('/:table_name/:id', details);
     router.delete('/:table_name/:id', _delete);
-    router.post('/:table_name/login', login);
+    router.post('/user/login', login);
 }
 
 
@@ -34,7 +34,7 @@ function login(req, res){
             return _response.apiSuccess(res, result.length+" "+responsemsg.found , result )
 
         } else {
-            return _response.apiFailed(res, responsemsg.listIsEmpty )
+            return _response.apiFailed(res, responsemsg.listIsEmpty ,err)
         }
     });
 }
