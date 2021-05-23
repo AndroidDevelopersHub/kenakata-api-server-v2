@@ -72,3 +72,31 @@ app.get("/test", tokenChecker.checkToken, (req, res) => {
 
 
 
+app.post('/uploadx', async (req, res) => {
+    try {
+        if(!req.files) {
+            res.send({
+                status: false,
+                message: 'No file uploaded'
+            });
+        } else {
+            //Use the name of the input field (i.e. "avatar") to retrieve the uploaded file
+            let avatar = req.files.avatar;
+
+            //Use the mv() method to place the file in upload directory (i.e. "uploads")
+            avatar.mv('./uploads/' + avatar.name);
+
+            //send response
+            res.send({
+                url: "https://live.allgame365.online/"+avatar.name
+
+            });
+        }
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
+
+
+
+
