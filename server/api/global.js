@@ -21,7 +21,7 @@ module.exports = function (router) {
     router.put('/:table_name/:id', update);
     router.get('/:table_name/:id', details);
     router.delete('/:table_name/:id', _delete);
-    router.post('/:table_name/', login);
+    router.post('/:table_name/login', login);
 }
 
 
