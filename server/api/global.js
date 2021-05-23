@@ -22,7 +22,24 @@ module.exports = function (router) {
     router.get('/:table_name/:id', details);
     router.delete('/:table_name/:id', _delete);
     router.post('/user/login', login);
+    router.post('/admin/login', admin_login);
     router.post('/uploads')
+}
+
+
+
+function admin_login(req, res){
+    let email = req.body.email;
+    let password = req.body.password;
+
+    db.query("SELECT * FROM `user` WHERE `email` = '"+email+"' AND `password` = '"+password+"' ", (err, result) => {
+        if (!err) {
+            return _response.apiSuccess(res, result.length+" "+responsemsg.found , result )
+
+        } else {
+            return _response.apiFailed(res, responsemsg.listIsEmpty ,err)
+        }
+    });
 }
 
 function login(req, res){
