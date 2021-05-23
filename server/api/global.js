@@ -29,7 +29,7 @@ function login(req, res){
     let email = req.body.email;
     let password = req.body.password;
 
-    db.query("SELECT * FROM user WHERE email = `"+email+"` AND password = `"+password+"` ", (err, result) => {
+    db.query("SELECT * FROM user WHERE email = "+email.toString()+" AND password = "+password.toString()+" ", (err, result) => {
         if (!err) {
             return _response.apiSuccess(res, result.length+" "+responsemsg.found , result )
 
