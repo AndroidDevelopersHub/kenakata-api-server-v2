@@ -72,6 +72,14 @@ app.get("/test", tokenChecker.checkToken, (req, res) => {
 
 
 
+app.get("/testx",(req, res) => {
+    res.json({
+        success: true,
+        message: "Running secure siteeee Successs",
+    });
+});
+
+
 app.post('/uploadx', async (req, res) => {
     try {
         if(!req.files) {
@@ -89,7 +97,6 @@ app.post('/uploadx', async (req, res) => {
             //send response
             res.send({
                 url: "https://live.allgame365.online/"+avatar.name
-
             });
         }
     } catch (err) {
