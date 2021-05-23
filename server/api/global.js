@@ -21,6 +21,25 @@ module.exports = function (router) {
     router.put('/:table_name/:id', update);
     router.get('/:table_name/:id', details);
     router.delete('/:table_name/:id', _delete);
+    router.post('/:table_name/', login);
+}
+
+
+function login(req, res){
+    const table_name = req.params.table_name
+    if (table_name === "user"){
+        let email = req.body.email;
+        let password = req.body.password;
+
+        db.query("SELECT * FROM "+table_name+" WHERE email = "+email+" AND password = "+password+" ", (err, result) => {
+            if (!err) {
+                return _response.apiSuccess(res, result.length+" "+responsemsg.found , result , {page: parseInt(page) , limit: parseInt(limit),totalDocs: totalDocs })
+
+            } else {
+                return _response.apiFailed(res, responsemsg.listIsEmpty )
+            }
+        });
+    }
 }
 
 
