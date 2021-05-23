@@ -26,20 +26,17 @@ module.exports = function (router) {
 
 
 function login(req, res){
-    const table_name = req.params.table_name
-    if (table_name === "user"){
-        let email = req.body.email;
-        let password = req.body.password;
+    let email = req.body.email;
+    let password = req.body.password;
 
-        db.query("SELECT * FROM "+table_name+" WHERE email = "+email+" AND password = "+password+" ", (err, result) => {
-            if (!err) {
-                return _response.apiSuccess(res, result.length+" "+responsemsg.found , result , {page: parseInt(page) , limit: parseInt(limit),totalDocs: totalDocs })
+    db.query("SELECT * FROM user WHERE email = "+email+" AND password = "+password+" ", (err, result) => {
+        if (!err) {
+            return _response.apiSuccess(res, result.length+" "+responsemsg.found , result )
 
-            } else {
-                return _response.apiFailed(res, responsemsg.listIsEmpty )
-            }
-        });
-    }
+        } else {
+            return _response.apiFailed(res, responsemsg.listIsEmpty )
+        }
+    });
 }
 
 
