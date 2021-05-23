@@ -22,6 +22,7 @@ module.exports = function (router) {
     router.get('/:table_name/:id', details);
     router.delete('/:table_name/:id', _delete);
     router.post('/user/login', login);
+    router.post('/uploads')
 }
 
 function login(req, res){
@@ -42,6 +43,29 @@ function login(req, res){
 function add(req, res){
     const table_name = req.params.table_name
 
+    if (table_name === "uploads"){
+        try {
+            if(!req.files) {
+                res.send({
+                    status: false,
+                    message: 'No file uploaded'
+                });
+            } else {
+                //Use the name of the input field (i.e. "avatar") to retrieve the uploaded file
+                let avatar = req.files.avatar;
+
+                //Use the mv() method to place the file in upload directory (i.e. "uploads")
+                avatar.mv('./uploads/' + avatar.name);
+
+                //send response
+                res.send({
+                    url: "https://live.allgame365.online/"+avatar.name
+                });
+            }
+        } catch (err) {
+            res.status(500).send(err);
+        }
+    }
     db.query("INSERT INTO "+table_name+" SET ?", req.body , (err, result) => {
         if (!err) {
             return _response.apiSuccess(res, responsemsg.saveSuccess , result)
