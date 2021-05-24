@@ -24,9 +24,18 @@ module.exports = function (router) {
     router.post('/user/login', login);
     router.post('/admin/login', admin_login);
     router.post('/uploads')
+    router.delete('/cart/:user_id/:product_id', _deleteCart);
 }
 
-
+function _deleteCart(req,res){
+    db.query("DELETE FROM `cart` WHERE product_id='"+req.params.product_id+"' AND user_id = '"+req.params.user_id+"' ", (err, result) => {
+        if (!err) {
+            return _response.apiSuccess(res, responsemsg.deleteSuccess)
+        } else {
+            return _response.apiFailed(res, err)
+        }
+    });
+}
 
 function admin_login(req, res){
     let email = req.body.email;
