@@ -92,6 +92,26 @@ function add(req, res){
             res.status(500).send(err);
         }
     }
+
+    if (table_name === "checkout"){
+
+        db.query("DELETE FROM `cart` WHERE product_id='"+req.body.product_id+"' AND user_id = '"+req.body.user_id+"' ", (err, result) => {
+            if (!err) {
+
+                db.query("INSERT INTO "+table_name+" SET ?", req.body , (err, result) => {
+                    if (!err) {
+                        return _response.apiSuccess(res, responsemsg.saveSuccess , result)
+                    } else {
+                        return _response.apiFailed(res, err , result)
+                    }
+                });
+
+            } else {
+                return _response.apiFailed(res, err)
+            }
+        });
+    }
+
     db.query("INSERT INTO "+table_name+" SET ?", req.body , (err, result) => {
         if (!err) {
             return _response.apiSuccess(res, responsemsg.saveSuccess , result)
